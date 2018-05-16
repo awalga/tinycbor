@@ -42,6 +42,11 @@ open DIFF, "-|", "git", "diff", "HEAD", "--not", @tags, "--", 'src/*.h', ':!*_p.
 map { print "# $_"; } <DIFF>;
 close DIFF;
 
+print "# Header diff:\n";
+open DIFF, "-|", "git", "diff", "HEAD", "--not", @tags, "--", 'include/*.h', ':!*_p.h';
+map { print "# $_"; } <DIFF>;
+close DIFF;
+
 select STDOUT;
 close TAGFILE;
 
@@ -69,7 +74,7 @@ open VERSION, ">", "VERSION" or die("Cannot open VERSION file: $!");
 print VERSION "$v\n";
 close VERSION;
 
-open VERSION, ">", "src/tinycbor-version.h" or die("Cannot open src/tinycbor-version.h: $!");
+open VERSION, ">", "include/tinycbor-version.h" or die("Cannot open include/tinycbor-version.h: $!");
 print VERSION "#define TINYCBOR_VERSION_MAJOR      ", $v[0], "\n";
 print VERSION "#define TINYCBOR_VERSION_MINOR      ", $v[1], "\n";
 print VERSION "#define TINYCBOR_VERSION_PATCH      ", $v[2], "\n";
